@@ -1,0 +1,53 @@
+---
+/**
+ * ============================================================
+ *  Owner: Taisei (UI & Component Layer)
+ *  File: TaskCard component (a single task card)
+ * ============================================================
+ *
+ *  【What to do】
+ *  Design the visual template for a task card.
+ *  NOTE: Cards are created dynamically at runtime by JavaScript,
+ *  so this file serves as a DESIGN REFERENCE and HTML/CSS template.
+ *  Suzuna's KanbanBoard.ts will create card elements using this structure.
+ *
+ *  【Card HTML structure to follow】
+ *  <div class="task-card" draggable="true" data-task-id="{id}">
+ *    <h3 class="task-title">{title}</h3>
+ *    <p class="task-due-date">{dueDate}</p>
+ *  </div>
+ *
+ *  【Important attributes for Carlos】
+ *  - draggable="true"     → enables HTML5 drag & drop
+ *  - data-task-id="{id}"  → used to identify which task is being dragged
+ *  - class="task-card"    → Carlos uses this to attach drag event listeners
+ *
+ *  【Click behavior】
+ *  - Clicking a card should open the View Task modal
+ *    (Carlos will attach the click event listener in modal.ts)
+ *
+ *  【Design tips】
+ *  - Keep cards compact: show title + due date only
+ *  - Add hover effect and cursor: grab for drag affordance
+ *  - While dragging: reduce opacity (Carlos handles this in dragAndDrop.ts)
+ * ============================================================
+ */
+---
+
+<!-- This is a static preview / design reference for the task card -->
+<div class="task-card" draggable="true" data-task-id="sample-id">
+  <h3 class="task-title">Sample Task</h3>
+  <p class="task-due-date">2026-03-01</p>
+</div>
+
+<style>
+  /* TODO: Taisei - Style the task card */
+  .task-card {
+    /* Example: background: white; border-radius: 4px; padding: 0.75rem;
+       box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: grab; */
+  }
+
+  .task-card:hover {
+    /* Example: box-shadow: 0 2px 6px rgba(0,0,0,0.15); */
+  }
+</style>

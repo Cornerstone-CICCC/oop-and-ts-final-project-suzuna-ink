@@ -1,0 +1,51 @@
+---
+/**
+ * ============================================================
+ *  Owner: Carlos (Interaction Layer)
+ *  File: Modal base component (shared wrapper for all modals)
+ * ============================================================
+ *
+ *  【What to do】
+ *  Build a reusable modal wrapper that all modals share.
+ *
+ *  1. Accept these props:
+ *     - id: string  (unique modal identifier, e.g. "view-task-modal")
+ *
+ *  2. Render:
+ *     - A dark overlay (covers the whole screen)
+ *     - A modal container (centered white box)
+ *     - A close button (× in the top-right corner)
+ *     - A <slot /> for modal content (each modal fills this differently)
+ *
+ *  3. The modal should be hidden by default (display: none)
+ *     → modal.ts will toggle visibility by adding/removing a class
+ *
+ *  【HTML structure suggestion】
+ *  <div class="modal-overlay" id="{id}" style="display: none;">
+ *    <div class="modal-container">
+ *      <button class="modal-close">×</button>
+ *      <slot />
+ *    </div>
+ *  </div>
+ *
+ *  【Styling】
+ *  - Style in modal.css (src/styles/modal.css)
+ *  - Overlay: fixed, full screen, semi-transparent black background
+ *  - Container: centered, white, rounded corners, max-width ~500px
+ * ============================================================
+ */
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<!-- TODO: Carlos - Build the modal wrapper HTML here -->
+<div class="modal-overlay" id={id} style="display: none;">
+  <div class="modal-container">
+    <button class="modal-close">&times;</button>
+    <slot />
+  </div>
+</div>

@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Read(//private/tmp/kanban-astro-setup/**)",
+      "Read(//tmp/kanban-astro-setup/**)",
+      "Read(//tmp/kanban-astro-setup/src/pages/**)",
+      "Read(//private/tmp/kanban-astro-setup/src/pages/**)",
+      "Bash(npx astro build:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp/kanban-astro-setup",
+      "/Users/taisei/ciccc/assignments/oop-and-ts-final-project-suzuna-ink/src/{components,layouts,pages,scripts"
+    ]
+  }
+}

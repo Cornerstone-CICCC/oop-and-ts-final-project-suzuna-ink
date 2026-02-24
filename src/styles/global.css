@@ -1,0 +1,60 @@
+/**
+ * ============================================================
+ *  Owner: Taisei (UI & Component Layer)
+ *  File: Global styles (reset, CSS variables, common styles)
+ * ============================================================
+ *
+ *  【What to do】
+ *  1. Define CSS custom properties (variables) for the design system
+ *     → Colors, spacing, border-radius, shadows, etc.
+ *     → This makes it easy to keep a consistent look across all components
+ *
+ *  2. Add a basic CSS reset (already started below)
+ *
+ *  3. Add any global styles (body background, link styles, etc.)
+ *
+ *  【Tip】
+ *  Carlos will import modal.css separately for modal styles.
+ *  You don't need to handle modal styling here.
+ * ============================================================
+ */
+
+/* ===== CSS Variables ===== */
+:root {
+  /* TODO: Taisei - Define your color palette here */
+  /* Example:
+  --color-primary: #0079bf;
+  --color-bg: #f5f6f8;
+  --color-column-bg: #ebecf0;
+  --color-card-bg: #ffffff;
+  --color-text: #172b4d;
+  --color-text-secondary: #5e6c84;
+  --border-radius: 8px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1);
+  */
+}
+
+/* ===== CSS Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  /* TODO: Taisei - Set background color, e.g. background-color: var(--color-bg); */
+}
+
+/* ===== Responsive ===== */
+/* TODO: Taisei - Add media queries for mobile layout */
+/* Example:
+@media (max-width: 768px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+}
+*/

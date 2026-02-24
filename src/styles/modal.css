@@ -1,0 +1,84 @@
+/**
+ * ============================================================
+ *  Owner: Carlos (Interaction Layer)
+ *  File: Modal styles
+ * ============================================================
+ *
+ *  【What to do】
+ *  Style all modal-related elements:
+ *  - .modal-overlay  → full-screen dark backdrop
+ *  - .modal-container → centered white content box
+ *  - .modal-close    → close button (×)
+ *  - .modal-actions  → button row (Edit/Delete, Cancel/Confirm)
+ *  - Form elements inside TaskFormModal
+ *
+ *  【Tip】
+ *  Use Taisei's CSS variables from global.css (e.g. var(--border-radius))
+ *  to keep the design consistent.
+ * ============================================================
+ */
+
+/* TODO: Carlos - Style the modal overlay */
+.modal-overlay {
+  /* Example:
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  */
+}
+
+/* TODO: Carlos - Style the modal container */
+.modal-container {
+  /* Example:
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  */
+}
+
+/* TODO: Carlos - Style the close button */
+.modal-close {
+  /* Example:
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  */
+}
+
+/* TODO: Carlos - Style the action buttons row */
+.modal-actions {
+  /* Example:
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  */
+}
+
+/* TODO: Carlos - Style form elements */
+#task-form label {
+  /* Example: display: block; margin-top: 1rem; font-weight: 600; */
+}
+
+#task-form input,
+#task-form textarea {
+  /* Example: width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; */
+}
+
+#task-form button[type="submit"] {
+  /* Example: margin-top: 1.5rem; width: 100%; padding: 0.75rem; */
+}

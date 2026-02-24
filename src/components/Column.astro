@@ -1,0 +1,64 @@
+---
+/**
+ * ============================================================
+ *  Owner: Taisei (UI & Component Layer)
+ *  File: Column component (a single column: To Do / In Progress / Done)
+ * ============================================================
+ *
+ *  【What to do】
+ *  Build a single column that holds task cards.
+ *
+ *  1. Accept these props:
+ *     - title: string   (e.g. "To Do")
+ *     - status: string  (e.g. "todo" — used as data attribute for drag & drop)
+ *
+ *  2. Render:
+ *     - Column header with the title and a task count badge
+ *     - A container div for task cards (will be populated dynamically via JS)
+ *     - An "Add Task" button (Carlos will wire up the click event)
+ *
+ *  【Important for Carlos (Drag & Drop)】
+ *  - The task list container MUST have:
+ *     data-status="{status}"  → so Carlos can identify the drop target
+ *     class="task-list"       → so Carlos can query these containers
+ *
+ *  【Important for Carlos (Add Task)】
+ *  - The "Add Task" button should have:
+ *     class="add-task-btn"
+ *     data-status="{status}"  → so Carlos knows which column to add to
+ * ============================================================
+ */
+
+interface Props {
+  title: string;
+  status: string;
+}
+
+const { title, status } = Astro.props;
+---
+
+<!-- TODO: Taisei - Build the column HTML here -->
+<section class="column">
+  <div class="column-header">
+    <h2>{title}</h2>
+    <!-- Task count badge goes here -->
+  </div>
+
+  <!-- Task cards will be inserted here dynamically by JavaScript -->
+  <div class="task-list" data-status={status}>
+    <!-- Cards are rendered by KanbanBoard.ts at runtime -->
+  </div>
+
+  <button class="add-task-btn" data-status={status}>+ Add Task</button>
+</section>
+
+<style>
+  /* TODO: Taisei - Style the column */
+  .column {
+    /* Example: background: #f4f5f7; border-radius: 8px; padding: 1rem; */
+  }
+
+  .task-list {
+    /* Example: min-height: 100px; → ensures drop target area even when empty */
+  }
+</style>

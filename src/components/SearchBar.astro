@@ -1,0 +1,53 @@
+---
+/**
+ * ============================================================
+ *  Owner: Carlos (Interaction Layer)
+ *  File: SearchBar component with auto-complete
+ * ============================================================
+ *
+ *  【What to do】
+ *  Build a search bar that filters tasks by name with auto-completion.
+ *
+ *  1. Render:
+ *     - A text input (id="search-input", placeholder="Search tasks...")
+ *     - A results dropdown list (id="search-results", hidden by default)
+ *
+ *  2. The dropdown shows matching task titles as the user types
+ *     → Logic is handled in search.ts
+ *
+ *  3. Clicking a result opens the View Task modal for that task
+ *     → search.ts calls the modal open function
+ *
+ *  【HTML structure suggestion】
+ *  <div class="search-bar">
+ *    <input type="text" id="search-input" placeholder="Search tasks..." />
+ *    <ul id="search-results" class="search-results"></ul>
+ *  </div>
+ *
+ *  【How search works (implemented in search.ts)】
+ *  - On each keystroke, call Suzuna's taskList.searchByName(query)
+ *  - Render matching tasks as <li> items in the dropdown
+ *  - On click, open the ViewTaskModal with that task's data
+ *  - Hide dropdown when input is empty or loses focus
+ * ============================================================
+ */
+---
+
+<!-- TODO: Carlos - Build the search bar HTML here -->
+<div class="search-bar">
+  <input type="text" id="search-input" placeholder="Search tasks..." autocomplete="off" />
+  <ul id="search-results" class="search-results"></ul>
+</div>
+
+<style>
+  /* TODO: Carlos - Style the search bar and dropdown */
+  .search-bar {
+    /* Example: position: relative; */
+  }
+
+  .search-results {
+    /* Example: position: absolute; top: 100%; width: 100%;
+       background: white; list-style: none; display: none;
+       border: 1px solid #ddd; border-radius: 4px; */
+  }
+</style>
