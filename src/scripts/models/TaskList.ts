@@ -50,7 +50,7 @@ export class TaskList {
     return task;
   }
 
-  update(id: string, fields: any) {
+  update(id: string, fields: any): void {
     const task = this.getById(id);
     if (task) task.update(fields);
   }
