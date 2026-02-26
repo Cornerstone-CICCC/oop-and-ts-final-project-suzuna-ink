@@ -1,36 +1,33 @@
 ---
-/**
- * ============================================================
- *  Owner: Taisei (UI & Component Layer)
- *  File: Header component
- * ============================================================
- *
- *  【What to do】
- *  Build the top header bar of the Kanban board.
- *
- *  1. Add the app title (e.g. "Kanban Board")
- *  2. Include a placeholder area for Carlos's SearchBar component
- *     → Carlos will import <SearchBar /> into index.astro,
- *       but leave space for it in the header layout
- *  3. Style with scoped <style> below
- *
- *  【Design tips】
- *  - Use flexbox: title on the left, search area on the right
- *  - Pick a background color that stands out as a header
- *  - Make sure it looks good on mobile (stack vertically if needed)
- * ============================================================
- */
 ---
 
-<!-- TODO: Taisei - Build the header HTML here -->
 <header class="header">
-  <h1>Kanban Board</h1>
-  <!-- Search bar area: Carlos's SearchBar component will go next to this in index.astro -->
+  <h1 class="header-title">Kanban Board</h1>
 </header>
 
 <style>
-  /* TODO: Taisei - Style the header */
   .header {
-    /* Example: display: flex; justify-content: space-between; align-items: center; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-header-bg);
+    color: var(--color-header-text);
+    padding: var(--spacing-md) var(--spacing-xl);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+      gap: var(--spacing-sm);
+      text-align: center;
+      padding: var(--spacing-md);
+    }
   }
 </style>
