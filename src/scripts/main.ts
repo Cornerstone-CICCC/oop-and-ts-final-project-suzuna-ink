@@ -65,19 +65,21 @@ const board = new KanbanBoard();
 
 // 🔥 Tarea de prueba
 if (board.taskList.tasks.length === 0) {
-  board.taskList.add("Primera tarea", "Descripción de prueba", "2026-03-01");
+  board.taskList.add(
+    "Primera tarea",
+    "Descripción de prueba",
+    "2026-03-01",
+    "todo",
+  );
   board.save();
 }
 
 function renderBoard() {
-  const columns = document.querySelectorAll("[data-status]");
+  const taskLists = document.querySelectorAll(".task-list[data-status]");
 
-  columns.forEach((column) => {
-    const status = column.getAttribute("data-status");
+  taskLists.forEach((taskContainer) => {
+    const status = taskContainer.getAttribute("data-status");
     if (!status) return;
-
-    const taskContainer = column.querySelector(".task-list");
-    if (!taskContainer) return;
 
     taskContainer.innerHTML = "";
 
@@ -94,8 +96,29 @@ function renderBoard() {
       taskContainer.appendChild(card);
     });
   });
+
   console.log("Render board is running");
   console.log("All tasks:", board.taskList.tasks);
 }
+
+// 🔥 BOTÓN ADD TASK
+document.addEventListener("click", (e) => {
+  const btn = (e.target as HTMLElement).closest(".add-task-btn");
+  if (!btn) return;
+
+  const status = btn.getAttribute("data-status");
+  if (!status) return;
+
+  const title = prompt("Task title?");
+  if (!title) return;
+
+  const description = prompt("Description?") || "";
+
+  // 👇 aquí se crea en la columna correcta
+  board.taskList.add(title, description, "2026-03-01", status as any);
+  board.save();
+
+  renderBoard();
+});
 
 renderBoard();

@@ -43,12 +43,16 @@ import type { ITask, ColumnType } from "./types";
 export class TaskList {
   tasks: Task[] = [];
 
-  add(title: string, description: string, dueDate: string): Task {
-    const newTask = new Task(title, description, dueDate);
-    this.tasks.push(newTask);
-    return newTask;
+  add(
+    title: string,
+    description: string,
+    dueDate: string,
+    status: ColumnType = "todo",
+  ) {
+    const task = new Task(title, description, dueDate);
+    task.status = status;
+    this.tasks.push(task);
   }
-
   update(id: string, fields: any): void {
     const task = this.getById(id);
     if (task) {
