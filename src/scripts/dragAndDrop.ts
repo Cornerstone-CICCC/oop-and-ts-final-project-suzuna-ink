@@ -57,3 +57,30 @@
 //   const taskLists = document.querySelectorAll(".task-list");
 //   // ... set up drag and drop event listeners
 // }
+
+import type { KanbanBoard } from "./KanbanBoard";
+import type { ColumnType } from "./models/types";
+
+export function initDragAndDrop(board: KanbanBoard, renderBoard: () => void) {
+  const columns = document.querySelectorAll<HTMLElement>(".task-list");
+
+  columns.forEach((column) => {
+    column.addEventListener("dragover", (ev) => {
+      ev.preventDefault();
+    });
+
+    column.addEventListener("drop", (ev) => {
+      ev.preventDefault();
+
+      const dragEvent = ev as DragEvent;
+      const taskId = dragEvent.dataTransfer?.getData("text/plain");
+      if (!taskId) return;
+
+      const newStatus = column.getAttribute("data-status");
+      if (!newStatus) return;
+
+      board.moveTask(taskId, newStatus as ColumnType);
+      renderBoard();
+    });
+  });
+}

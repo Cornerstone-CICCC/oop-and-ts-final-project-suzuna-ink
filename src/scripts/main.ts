@@ -60,19 +60,9 @@
 //   // Render all task cards into their columns
 // }
 import { KanbanBoard } from "./KanbanBoard";
+import { initDragAndDrop } from "./dragAndDrop";
 
 const board = new KanbanBoard();
-
-// 🔥 Tarea de prueba
-if (board.taskList.tasks.length === 0) {
-  board.taskList.add(
-    "Primera tarea",
-    "Descripción de prueba",
-    "2026-03-01",
-    "todo",
-  );
-  board.save();
-}
 
 function renderBoard() {
   const taskLists = document.querySelectorAll(".task-list[data-status]");
@@ -94,6 +84,11 @@ function renderBoard() {
         <p>${task.description}</p>
       `;
       taskContainer.appendChild(card);
+
+      card.draggable = true;
+      card.addEventListener("dragstart", (ev) => {
+        ev.dataTransfer?.setData("text/plain", task.id);
+      });
     });
   });
 
@@ -122,3 +117,4 @@ document.addEventListener("click", (e) => {
 });
 
 renderBoard();
+initDragAndDrop(board, renderBoard);
