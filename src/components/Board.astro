@@ -1,4 +1,6 @@
 ---
+import Column from "./Column.astro";
+
 /**
  * ============================================================
  *  Owner: Taisei (UI & Component Layer)
@@ -35,16 +37,24 @@
 ---
 
 <!-- TODO: Taisei - Build the board layout with 3 columns here -->
+
 <main class="board">
-  <!-- Example: -->
-  <!-- <Column title="To Do" status="todo" /> -->
-  <!-- <Column title="In Progress" status="in-progress" /> -->
-  <!-- <Column title="Done" status="done" /> -->
+  <Column title="To Do" status="todo" />
+  <Column title="In Progress" status="in-progress" />
+  <Column title="Done" status="done" />
 </main>
 
 <style>
-  /* TODO: Taisei - Style the 3-column board layout */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+@media (max-width: 700px) {
   .board {
-    /* Example: display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; */
+    grid-template-columns: 1fr;
   }
+}
 </style>

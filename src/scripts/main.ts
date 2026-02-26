@@ -59,3 +59,43 @@
 // export function renderBoard(board: KanbanBoard): void {
 //   // Render all task cards into their columns
 // }
+import { KanbanBoard } from "./KanbanBoard";
+
+const board = new KanbanBoard();
+
+// 🔥 Tarea de prueba
+if (board.taskList.tasks.length === 0) {
+  board.taskList.add("Primera tarea", "Descripción de prueba", "2026-03-01");
+  board.save();
+}
+
+function renderBoard() {
+  const columns = document.querySelectorAll("[data-status]");
+
+  columns.forEach((column) => {
+    const status = column.getAttribute("data-status");
+    if (!status) return;
+
+    const taskContainer = column.querySelector(".task-list");
+    if (!taskContainer) return;
+
+    taskContainer.innerHTML = "";
+
+    const tasks = board.getTasksByColumn(status as any);
+
+    tasks.forEach((task) => {
+      const card = document.createElement("div");
+      card.className = "task-card";
+      card.setAttribute("data-task-id", task.id);
+      card.innerHTML = `
+        <h4>${task.title}</h4>
+        <p>${task.description}</p>
+      `;
+      taskContainer.appendChild(card);
+    });
+  });
+  console.log("Render board is running");
+  console.log("All tasks:", board.taskList.tasks);
+}
+
+renderBoard();
