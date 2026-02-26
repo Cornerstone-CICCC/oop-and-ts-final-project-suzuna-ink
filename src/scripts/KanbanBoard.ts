@@ -41,7 +41,7 @@
 // TODO: Suzuna - Import TaskList and types
 import { TaskList } from "./models/TaskList";
 import { Task } from "./models/Task";
-import { ITask, ColumnType } from "./models/types";
+import type { ITask, ColumnType } from "./models/types";
 
 // TODO: Suzuna - Implement the KanbanBoard class here
 export class KanbanBoard {

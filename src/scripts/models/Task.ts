@@ -36,7 +36,7 @@
  */
 
 // TODO: Suzuna - Import types from types.ts
-import { ITask, ColumnType } from "./types";
+import type { ITask, ColumnType } from "./types";
 
 // TODO: Suzuna - Implement the Task class here
 export class Task implements ITask {

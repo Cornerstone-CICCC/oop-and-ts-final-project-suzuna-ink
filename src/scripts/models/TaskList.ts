@@ -37,7 +37,7 @@
 
 // TODO: Suzuna - Import Task class and types
 import { Task } from "./Task";
-import { ITask, ColumnType } from "./types";
+import type { ITask, ColumnType } from "./types";
 
 // TODO: Suzuna - Implement the TaskList class here
 export class TaskList {
