@@ -38,3 +38,38 @@
 // TODO: Suzuna - Import Task class and types
 
 // TODO: Suzuna - Implement the TaskList class here
+import { Task } from "./Task";
+import type { ColumnType } from "./types";
+
+export class TaskList {
+  tasks: Task[] = [];
+
+  add(title: string, description: string, dueDate: string) {
+    const task = new Task(title, description, dueDate);
+    this.tasks.push(task);
+    return task;
+  }
+
+  update(id: string, fields: any) {
+    const task = this.getById(id);
+    if (task) task.update(fields);
+  }
+
+  delete(id: string) {
+    this.tasks = this.tasks.filter((t) => t.id !== id);
+  }
+
+  getById(id: string) {
+    return this.tasks.find((t) => t.id === id);
+  }
+
+  filterByStatus(status: ColumnType) {
+    return this.tasks.filter((t) => t.status === status);
+  }
+
+  searchByName(query: string) {
+    return this.tasks.filter((t) =>
+      t.title.toLowerCase().includes(query.toLowerCase()),
+    );
+  }
+}

@@ -41,3 +41,46 @@
 // TODO: Suzuna - Import TaskList and types
 
 // TODO: Suzuna - Implement the KanbanBoard class here
+// kanbanboard.ts
+import { TaskList } from "./models/TaskList";
+import type { ColumnType } from "./models/types";
+
+export class KanbanBoard {
+  taskList: TaskList;
+
+  constructor() {
+    this.taskList = new TaskList();
+    this.load(); // intenta cargar datos guardados
+  }
+
+  moveTask(taskId: string, newStatus: ColumnType): void {
+    this.taskList.update(taskId, { status: newStatus });
+  }
+
+  getTasksByColumn(status: ColumnType) {
+    return this.taskList.filterByStatus(status);
+  }
+
+  save(): void {
+    const data = this.taskList.tasks.map((t) => t.toJSON());
+    localStorage.setItem("kanban-tasks", JSON.stringify(data));
+  }
+
+  load(): void {
+    const saved = localStorage.getItem("kanban-tasks");
+    if (!saved) return;
+
+    try {
+      const tasks = JSON.parse(saved);
+      this.taskList.tasks = tasks.map((t: any) => {
+        const task = this.taskList.add(t.title, t.description, t.dueDate);
+        task.id = t.id;
+        task.status = t.status;
+        task.createdAt = t.createdAt;
+        return task;
+      });
+    } catch {
+      console.warn("Failed to load tasks");
+    }
+  }
+}

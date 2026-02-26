@@ -38,3 +38,37 @@
 // TODO: Suzuna - Import types from types.ts
 
 // TODO: Suzuna - Implement the Task class here
+import type { ITask, ColumnType } from "./types";
+
+export class Task {
+  id: string;
+  title: string;
+  description: string;
+  status: ColumnType;
+  dueDate: string;
+  createdAt: string;
+
+  constructor(title: string, description: string, dueDate: string) {
+    this.id = crypto.randomUUID();
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+    this.status = "todo";
+    this.createdAt = new Date().toISOString();
+  }
+
+  update(fields: Partial<ITask>) {
+    Object.assign(this, fields);
+  }
+
+  toJSON(): ITask {
+    return {
+      id: this.id,
+      title: this.title,
+      description: this.description,
+      status: this.status,
+      dueDate: this.dueDate,
+      createdAt: this.createdAt,
+    };
+  }
+}
