@@ -36,11 +36,10 @@
  */
 
 // TODO: Suzuna - Import types from types.ts
-
-// TODO: Suzuna - Implement the Task class here
 import type { ITask, ColumnType } from "./types";
 
-export class Task {
+// TODO: Suzuna - Implement the Task class here
+export class Task implements ITask {
   id: string;
   title: string;
   description: string;
@@ -57,8 +56,21 @@ export class Task {
     this.createdAt = new Date().toISOString();
   }
 
-  update(fields: Partial<ITask>) {
-    Object.assign(this, fields);
+  update(fields: Partial<ITask>): void {
+    // update(fields: Partial<Omit<ITask, "id" | "createdAt">>) {
+    // Object.assign(this, fields);
+    if (fields.title !== undefined) {
+      this.title = fields.title;
+    }
+    if (fields.description !== undefined) {
+      this.description = fields.description;
+    }
+    if (fields.status !== undefined) {
+      this.status = fields.status;
+    }
+    if (fields.dueDate !== undefined) {
+      this.dueDate = fields.dueDate;
+    }
   }
 
   toJSON(): ITask {

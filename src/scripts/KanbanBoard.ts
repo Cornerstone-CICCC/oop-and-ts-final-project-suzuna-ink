@@ -39,48 +39,46 @@
  */
 
 // TODO: Suzuna - Import TaskList and types
+import { TaskList } from "./models/TaskList";
+import { Task } from "./models/Task";
+import type { ITask, ColumnType } from "./models/types";
 
 // TODO: Suzuna - Implement the KanbanBoard class here
-// kanbanboard.ts
-import { TaskList } from "./models/TaskList";
-import type { ColumnType } from "./models/types";
-
 export class KanbanBoard {
   taskList: TaskList;
 
   constructor() {
     this.taskList = new TaskList();
-    this.load(); // intenta cargar datos guardados
+    this.load();
   }
 
   moveTask(taskId: string, newStatus: ColumnType): void {
     this.taskList.update(taskId, { status: newStatus });
+    this.save();
   }
 
-  getTasksByColumn(status: ColumnType) {
+  getTasksByColumn(status: ColumnType): Task[] {
     return this.taskList.filterByStatus(status);
   }
 
   save(): void {
-    const data = this.taskList.tasks.map((t) => t.toJSON());
+    const data = this.taskList.tasks.map((task) => task.toJSON());
     localStorage.setItem("kanban-tasks", JSON.stringify(data));
   }
 
   load(): void {
-    const saved = localStorage.getItem("kanban-tasks");
-    if (!saved) return;
+    const data = localStorage.getItem("kanban-tasks");
+    if (!data) return;
 
-    try {
-      const tasks = JSON.parse(saved);
-      this.taskList.tasks = tasks.map((t: any) => {
-        const task = this.taskList.add(t.title, t.description, t.dueDate);
-        task.id = t.id;
-        task.status = t.status;
-        task.createdAt = t.createdAt;
-        return task;
-      });
-    } catch {
-      console.warn("Failed to load tasks");
-    }
+    const rawTasks: ITask[] = JSON.parse(data);
+    rawTasks.forEach((obj) => {
+      const task = new Task(obj.title, obj.description, obj.dueDate);
+
+      task.id = obj.id;
+      task.status = obj.status;
+      task.createdAt = obj.createdAt;
+
+      this.taskList.tasks.push(task);
+    });
   }
 }
