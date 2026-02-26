@@ -35,5 +35,14 @@
  */
 
 // TODO: Suzuna - Define the ColumnType type here
+export type ColumnType = "todo" | "in-progress" | "done";
 
 // TODO: Suzuna - Define the ITask interface here
+export interface ITask {
+  id: string;
+  title: string;
+  description: string;
+  status: ColumnType;
+  dueDate: string;
+  createdAt: string;
+}

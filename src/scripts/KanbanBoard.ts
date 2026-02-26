@@ -39,5 +39,46 @@
  */
 
 // TODO: Suzuna - Import TaskList and types
+import { TaskList } from "./models/TaskList";
+import { Task } from "./models/Task";
+import type { ITask, ColumnType } from "./models/types";
 
 // TODO: Suzuna - Implement the KanbanBoard class here
+export class KanbanBoard {
+  taskList: TaskList;
+
+  constructor() {
+    this.taskList = new TaskList();
+    this.load();
+  }
+
+  moveTask(taskId: string, newStatus: ColumnType): void {
+    this.taskList.update(taskId, { status: newStatus });
+    this.save();
+  }
+
+  getTasksByColumn(status: ColumnType): Task[] {
+    return this.taskList.filterByStatus(status);
+  }
+
+  save(): void {
+    const data = this.taskList.tasks.map((task) => task.toJSON());
+    localStorage.setItem("kanban-tasks", JSON.stringify(data));
+  }
+
+  load(): void {
+    const data = localStorage.getItem("kanban-tasks");
+    if (!data) return;
+
+    const rawTasks: ITask[] = JSON.parse(data);
+    rawTasks.forEach((obj) => {
+      const task = new Task(obj.title, obj.description, obj.dueDate);
+
+      task.id = obj.id;
+      task.status = obj.status;
+      task.createdAt = obj.createdAt;
+
+      this.taskList.tasks.push(task);
+    });
+  }
+}

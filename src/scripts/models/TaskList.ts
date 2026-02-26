@@ -36,5 +36,42 @@
  */
 
 // TODO: Suzuna - Import Task class and types
+import { Task } from "./Task";
+import type { ITask, ColumnType } from "./types";
 
 // TODO: Suzuna - Implement the TaskList class here
+export class TaskList {
+  tasks: Task[] = [];
+
+  add(title: string, description: string, dueDate: string): Task {
+    const newTask = new Task(title, description, dueDate);
+    this.tasks.push(newTask);
+    return newTask;
+  }
+
+  update(id: string, fields: any): void {
+    const task = this.getById(id);
+    if (task) {
+      task.update(fields);
+    }
+  }
+
+  delete(id: string): void {
+    this.tasks = this.tasks.filter((t) => t.id !== id);
+  }
+
+  getById(id: string): Task | undefined {
+    return this.tasks.find((t) => t.id === id);
+  }
+
+  filterByStatus(status: ColumnType): Task[] {
+    return this.tasks.filter((t) => t.status === status);
+  }
+
+  searchByName(query: string): Task[] {
+    const loweredQuery = query.toLowerCase();
+    return this.tasks.filter((t) =>
+      t.title.toLowerCase().includes(loweredQuery),
+    );
+  }
+}
