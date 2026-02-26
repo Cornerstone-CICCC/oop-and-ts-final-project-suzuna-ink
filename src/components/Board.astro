@@ -1,42 +1,6 @@
 ---
 import Column from "./Column.astro";
-
-/**
- * ============================================================
- *  Owner: Taisei (UI & Component Layer)
- *  File: Board component (main board area with 3 columns)
- * ============================================================
- *
- *  【What to do】
- *  Build the main board layout that contains 3 columns.
- *
- *  1. Import the Column component
- *     → import Column from "./Column.astro";
- *
- *  2. Render 3 Column components, one for each status:
- *     - "todo"        → Title: "To Do"
- *     - "in-progress" → Title: "In Progress"
- *     - "done"        → Title: "Done"
- *
- *  3. Pass props to each Column:
- *     - title: string (display name)
- *     - status: string (column type id, used by Carlos for drag & drop)
- *
- *  4. Style with CSS Grid or Flexbox for 3-column layout
- *
- *  【Important for Carlos】
- *  - Add data-status attribute to each column container
- *    so Carlos can identify drop targets for drag & drop
- *    Example: <div data-status="todo"> ... </div>
- *
- *  【Responsive】
- *  - Desktop: 3 columns side by side
- *  - Mobile: stack columns vertically
- * ============================================================
- */
 ---
-
-<!-- TODO: Taisei - Build the board layout with 3 columns here -->
 
 <main class="board">
   <Column title="To Do" status="todo" />
@@ -45,16 +9,23 @@ import Column from "./Column.astro";
 </main>
 
 <style>
-.board {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  padding: 1rem;
-}
-
-@media (max-width: 700px) {
   .board {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    padding: var(--spacing-xl);
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: calc(100vh - 80px);
+    align-items: start;
   }
-}
+
+  @media (max-width: 768px) {
+    .board {
+      grid-template-columns: 1fr;
+      padding: var(--spacing-md);
+      gap: var(--spacing-md);
+      min-height: auto;
+    }
+  }
 </style>
