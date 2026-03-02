@@ -60,11 +60,13 @@
 //   // Render all task cards into their columns
 // }
 import { KanbanBoard } from "./KanbanBoard";
+import { initModals } from "./modal";
 import { initDragAndDrop } from "./dragAndDrop";
+import { initSearch } from "./search";
 
 const board = new KanbanBoard();
 
-function renderBoard() {
+export function renderBoard() {
   const taskLists = document.querySelectorAll(".task-list[data-status]");
 
   taskLists.forEach((taskContainer) => {
@@ -79,42 +81,17 @@ function renderBoard() {
       const card = document.createElement("div");
       card.className = "task-card";
       card.setAttribute("data-task-id", task.id);
+      card.setAttribute("draggable", "true");
       card.innerHTML = `
         <h4>${task.title}</h4>
         <p>${task.description}</p>
       `;
       taskContainer.appendChild(card);
-
-      card.draggable = true;
-      card.addEventListener("dragstart", (ev) => {
-        ev.dataTransfer?.setData("text/plain", task.id);
-      });
     });
   });
-
-  console.log("Render board is running");
-  console.log("All tasks:", board.taskList.tasks);
 }
 
-// 🔥 BOTÓN ADD TASK
-document.addEventListener("click", (e) => {
-  const btn = (e.target as HTMLElement).closest(".add-task-btn");
-  if (!btn) return;
-
-  const status = btn.getAttribute("data-status");
-  if (!status) return;
-
-  const title = prompt("Task title?");
-  if (!title) return;
-
-  const description = prompt("Description?") || "";
-
-  // 👇 aquí se crea en la columna correcta
-  board.taskList.add(title, description, "2026-03-01", status as any);
-  board.save();
-
-  renderBoard();
-});
-
 renderBoard();
+initSearch(board);
+initModals(board, renderBoard);
 initDragAndDrop(board, renderBoard);

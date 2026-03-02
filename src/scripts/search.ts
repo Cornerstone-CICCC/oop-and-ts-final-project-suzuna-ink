@@ -55,3 +55,70 @@
 //   const results = document.getElementById("search-results") as HTMLUListElement;
 //   // ... set up event listeners
 // }
+import type { KanbanBoard } from "./KanbanBoard";
+import { openViewTask } from "./modal.ts";
+
+export function initSearch(board: KanbanBoard): void {
+  const input = document.getElementById("search-input") as HTMLInputElement;
+  const results = document.getElementById("search-results") as HTMLUListElement;
+
+  if (!input || !results) return;
+
+  // INPUT EVENT
+  input.addEventListener("input", () => {
+    const query = input.value.trim();
+
+    // If empty → hide dropdown
+
+    if (query === "") {
+      results.style.display = "none";
+      results.innerHTML = "";
+      return;
+    }
+
+    const matchedTasks = board.taskList.searchByName(query);
+
+    results.innerHTML = "";
+
+    if (matchedTasks.length === 0) {
+      results.style.display = "none";
+      return;
+    }
+
+    // Render results
+
+    matchedTasks.forEach((task) => {
+      const li = document.createElement("li");
+      li.textContent = task.title;
+      li.dataset.taskId = task.id;
+      li.classList.add("search-item");
+
+      li.addEventListener("click", () => {
+        const selectedTask = board.taskList.getById(task.id);
+        if (!selectedTask) return;
+
+        openViewTask(selectedTask);
+
+        // Clear input + hide dropdown
+
+        input.value = "";
+        results.innerHTML = "";
+        results.style.display = "none";
+      });
+
+      results.appendChild(li);
+    });
+
+    results.style.display = "block";
+  });
+
+  // CLICK OUTSIDE → HIDE DROPDOWN
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+
+    if (!input.contains(target) && !results.contains(target)) {
+      results.style.display = "none";
+    }
+  });
+}

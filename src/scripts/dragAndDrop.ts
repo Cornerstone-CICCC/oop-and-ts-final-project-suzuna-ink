@@ -61,26 +61,58 @@
 import type { KanbanBoard } from "./KanbanBoard";
 import type { ColumnType } from "./models/types";
 
-export function initDragAndDrop(board: KanbanBoard, renderBoard: () => void) {
-  const columns = document.querySelectorAll<HTMLElement>(".task-list");
+export function initDragAndDrop(
+  board: KanbanBoard,
+  renderBoard: () => void,
+): void {
+  function attachDragListeners() {
+    document.querySelectorAll<HTMLElement>(".task-card").forEach((card) => {
+      card.addEventListener("dragstart", (ev) => {
+        if (!ev.dataTransfer) return;
 
-  columns.forEach((column) => {
-    column.addEventListener("dragover", (ev) => {
-      ev.preventDefault();
+        ev.dataTransfer.setData(
+          "text/plain",
+          card.getAttribute("data-task-id")!,
+        );
+
+        card.classList.add("dragging");
+      });
+
+      card.addEventListener("dragend", () => {
+        card.classList.remove("dragging");
+      });
     });
 
-    column.addEventListener("drop", (ev) => {
-      ev.preventDefault();
+    document.querySelectorAll<HTMLElement>(".task-list").forEach((column) => {
+      column.addEventListener("dragover", (ev) => {
+        ev.preventDefault();
+        column.classList.add("drag-over");
+      });
 
-      const dragEvent = ev as DragEvent;
-      const taskId = dragEvent.dataTransfer?.getData("text/plain");
-      if (!taskId) return;
+      column.addEventListener("dragleave", () => {
+        column.classList.remove("drag-over");
+      });
 
-      const newStatus = column.getAttribute("data-status");
-      if (!newStatus) return;
+      column.addEventListener("drop", (ev) => {
+        ev.preventDefault();
+        if (!ev.dataTransfer) return;
 
-      board.moveTask(taskId, newStatus as ColumnType);
-      renderBoard();
+        const taskId = ev.dataTransfer.getData("text/plain");
+        const newStatus = column.dataset.status as ColumnType;
+
+        if (!taskId || !newStatus) return;
+
+        board.moveTask(taskId, newStatus);
+        renderBoard();
+        attachDragListeners();
+
+        column.classList.remove("drag-over");
+      });
     });
+  }
+  attachDragListeners();
+
+  document.addEventListener("renderBoard", () => {
+    attachDragListeners();
   });
 }

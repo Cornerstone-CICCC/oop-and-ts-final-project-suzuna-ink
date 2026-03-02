@@ -60,207 +60,208 @@
 //   // Set up all event listeners for modals
 // }
 
-// import type { KanbanBoard } from "./KanbanBoard";
+/**
+ * ============================================================
+ *  Owner: Carlos (Interaction Layer)
+ *  File: Modal logic (open, close, populate data)
+ * ============================================================
+ *
+ *  Modal handling for View, Add/Edit, and Delete tasks
+ * ============================================================
+ */
 
-// /** Abre un modal por id */
-// function openModal(id: string) {
-//   const modal = document.getElementById(id);
-//   if (modal) modal.style.display = "flex";
-// }
+import type { KanbanBoard } from "./KanbanBoard";
+import type { ColumnType } from "./models/types";
 
-// /** Cierra un modal por id */
-// function closeModal(id: string) {
-//   const modal = document.getElementById(id);
-//   if (modal) modal.style.display = "none";
-// }
+let openViewTaskGlobal: ((task: any) => void) | null = null;
 
-// /** Inicializa todos los modales y eventos */
-// export function initModals(board: KanbanBoard) {
-//   // ====== Cerrar modales al hacer click en la X o fondo ======
-//   document.querySelectorAll(".modal-close").forEach((btn) => {
-//     btn.addEventListener("click", (e) => {
-//       const modal = (e.target as HTMLElement).closest(".modal-overlay");
-//       if (modal) closeModal(modal.id);
-//     });
-//   });
+function openModal(id: string) {
+  const modal = document.getElementById(id);
+  if (modal) modal.style.display = "flex";
+}
 
-//   document.querySelectorAll(".modal-overlay").forEach((overlay) => {
-//     overlay.addEventListener("click", (e) => {
-//       if (e.target === overlay) closeModal(overlay.id);
-//     });
-//   });
+function closeModal(id: string) {
+  const modal = document.getElementById(id);
+  if (modal) modal.style.display = "none";
+}
 
-//   // ====== Abrir View Task Modal ======
-//   function openViewTask(task: any) {
-//     const { id, title, description, status, dueDate } = task;
-//     (document.getElementById("view-task-title") as HTMLElement).textContent =
-//       title;
-//     (
-//       document.getElementById("view-task-description") as HTMLElement
-//     ).textContent = description;
-//     (document.getElementById("view-task-status") as HTMLElement).textContent =
-//       `Status: ${status}`;
-//     (document.getElementById("view-task-due-date") as HTMLElement).textContent =
-//       `Due: ${dueDate}`;
-//     (
-//       document.getElementById("edit-task-btn") as HTMLButtonElement
-//     ).dataset.taskId = id;
-//     (
-//       document.getElementById("delete-task-btn") as HTMLButtonElement
-//     ).dataset.taskId = id;
-//     openModal("view-task-modal");
-//   }
+export function openViewTask(task: any) {
+  openViewTaskGlobal?.(task);
+}
 
-//   // Click en cada tarjeta para abrir View Task
-//   function attachTaskCardListeners() {
-//     document.querySelectorAll(".task-card").forEach((card) => {
-//       card.addEventListener("click", () => {
-//         const taskId = card.getAttribute("data-task-id");
-//         if (!taskId) return;
-//         const task = board.taskList.getById(taskId);
-//         if (task) openViewTask(task);
-//       });
-//     });
-//   }
+export function initModals(board: KanbanBoard, renderBoard: () => void) {
+  // ================= CLOSE BUTTONS =================
+  document.querySelectorAll(".modal-close").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const modal = (e.target as HTMLElement).closest(".modal-overlay");
+      if (modal) closeModal(modal.id);
+    });
+  });
 
-//   attachTaskCardListeners();
+  document.querySelectorAll(".modal-overlay").forEach((overlay) => {
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
 
-//   // ====== Abrir Add Task Modal ======
-//   function openAddTask(status: string) {
-//     (document.getElementById("form-modal-title") as HTMLElement).textContent =
-//       "Add New Task";
-//     (
-//       document.getElementById("form-submit-btn") as HTMLButtonElement
-//     ).textContent = "Add Task";
-//     (document.getElementById("form-task-id") as HTMLInputElement).value = "";
-//     (document.getElementById("form-task-title") as HTMLInputElement).value = "";
-//     (
-//       document.getElementById("form-task-description") as HTMLTextAreaElement
-//     ).value = "";
-//     (document.getElementById("form-task-due-date") as HTMLInputElement).value =
-//       "";
-//     (document.getElementById("task-form") as HTMLFormElement).dataset.status =
-//       status;
-//     openModal("task-form-modal");
-//   }
+  // ================= VIEW TASK =================
+  function _openViewTask(task: any) {
+    (document.getElementById("view-task-title") as HTMLElement).textContent =
+      task.title;
+    (
+      document.getElementById("view-task-description") as HTMLElement
+    ).textContent = task.description;
+    (document.getElementById("view-task-status") as HTMLElement).textContent =
+      `Status: ${task.status}`;
+    (document.getElementById("view-task-due-date") as HTMLElement).textContent =
+      `Due: ${task.dueDate}`;
 
-//   // ====== Abrir Edit Task Modal ======
-//   function openEditTask(task: any) {
-//     (document.getElementById("form-modal-title") as HTMLElement).textContent =
-//       "Edit Task";
-//     (
-//       document.getElementById("form-submit-btn") as HTMLButtonElement
-//     ).textContent = "Save Changes";
-//     (document.getElementById("form-task-id") as HTMLInputElement).value =
-//       task.id;
-//     (document.getElementById("form-task-title") as HTMLInputElement).value =
-//       task.title;
-//     (
-//       document.getElementById("form-task-description") as HTMLTextAreaElement
-//     ).value = task.description;
-//     (document.getElementById("form-task-due-date") as HTMLInputElement).value =
-//       task.dueDate;
-//     openModal("task-form-modal");
-//   }
+    (
+      document.getElementById("edit-task-btn") as HTMLButtonElement
+    ).dataset.taskId = task.id;
+    (
+      document.getElementById("delete-task-btn") as HTMLButtonElement
+    ).dataset.taskId = task.id;
 
-//   // ====== Abrir Delete Modal ======
-//   function openDeleteModal(task: any) {
-//     (document.getElementById("delete-task-title") as HTMLElement).textContent =
-//       task.title;
-//     (document.getElementById("delete-task-id") as HTMLInputElement).value =
-//       task.id;
-//     openModal("delete-modal");
-//   }
+    openModal("view-task-modal");
+  }
 
-//   // ====== Click en Add Task Buttons ======
-//   document.querySelectorAll(".add-task-btn").forEach((btn) => {
-//     btn.addEventListener("click", () => {
-//       const status = btn.getAttribute("data-status") || "todo";
-//       openAddTask(status);
-//     });
-//   });
+  openViewTaskGlobal = _openViewTask;
 
-//   // ====== Click en Edit Button (View Task Modal) ======
-//   document.getElementById("edit-task-btn")?.addEventListener("click", (e) => {
-//     const btn = e.currentTarget as HTMLButtonElement;
-//     const taskId = btn.dataset.taskId;
-//     if (!taskId) return;
-//     const task = board.taskList.getById(taskId);
-//     if (task) {
-//       closeModal("view-task-modal");
-//       openEditTask(task);
-//     }
-//   });
+  // Click task card
+  document.addEventListener("click", (e) => {
+    const card = (e.target as HTMLElement).closest(".task-card");
+    if (!card) return;
 
-//   // ====== Click en Delete Button (View Task Modal) ======
-//   document.getElementById("delete-task-btn")?.addEventListener("click", (e) => {
-//     const btn = e.currentTarget as HTMLButtonElement;
-//     const taskId = btn.dataset.taskId;
-//     if (!taskId) return;
-//     const task = board.taskList.getById(taskId);
-//     if (task) {
-//       closeModal("view-task-modal");
-//       openDeleteModal(task);
-//     }
-//   });
+    const taskId = card.getAttribute("data-task-id");
+    if (!taskId) return;
 
-//   // ====== Confirm Delete Button ======
-//   document
-//     .getElementById("confirm-delete-btn")
-//     ?.addEventListener("click", () => {
-//       const idInput = document.getElementById(
-//         "delete-task-id",
-//       ) as HTMLInputElement;
-//       const taskId = idInput.value;
-//       if (!taskId) return;
-//       board.taskList.delete(taskId);
-//       board.save();
-//       closeModal("delete-modal");
-//       renderBoard(board);
-//     });
+    const task = board.taskList.getById(taskId);
+    if (task) _openViewTask(task);
+  });
 
-//   // ====== Task Form Submit ======
-//   const taskForm = document.getElementById("task-form") as HTMLFormElement;
-//   taskForm.addEventListener("submit", (e) => {
-//     e.preventDefault();
-//     const idInput = document.getElementById("form-task-id") as HTMLInputElement;
-//     const titleInput = document.getElementById(
-//       "form-task-title",
-//     ) as HTMLInputElement;
-//     const descInput = document.getElementById(
-//       "form-task-description",
-//     ) as HTMLTextAreaElement;
-//     const dueInput = document.getElementById(
-//       "form-task-due-date",
-//     ) as HTMLInputElement;
-//     const status = taskForm.dataset.status || "todo";
+  // ================= ADD TASK =================
+  function openAddTask(status: ColumnType) {
+    (document.getElementById("form-modal-title") as HTMLElement).textContent =
+      "Add New Task";
+    (
+      document.getElementById("form-submit-btn") as HTMLButtonElement
+    ).textContent = "Add Task";
 
-//     if (!titleInput.value) return;
+    (document.getElementById("form-task-id") as HTMLInputElement).value = "";
+    (document.getElementById("form-task-title") as HTMLInputElement).value = "";
+    (
+      document.getElementById("form-task-description") as HTMLTextAreaElement
+    ).value = "";
+    (document.getElementById("form-task-due-date") as HTMLInputElement).value =
+      "";
 
-//     if (idInput.value) {
-//       // Edit mode
-//       board.taskList.update(idInput.value, {
-//         title: titleInput.value,
-//         description: descInput.value,
-//         dueDate: dueInput.value,
-//       });
-//     } else {
-//       // Add mode
-//       board.taskList.add(
-//         titleInput.value,
-//         descInput.value,
-//         dueInput.value,
-//       ).status = status;
-//     }
+    const form = document.getElementById("task-form") as HTMLFormElement;
+    form.dataset.status = status;
 
-//     board.save();
-//     closeModal("task-form-modal");
-//     renderBoard(board);
-//   });
+    openModal("task-form-modal");
+  }
 
-//   // ====== Reattach task card listeners after board re-render ======
-//   function renderBoard(board: KanbanBoard) {
-//     const event = new CustomEvent("renderBoard", { detail: board });
-//     document.dispatchEvent(event);
-//   }
-// }
+  document.querySelectorAll(".add-task-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const statusAttr = btn.getAttribute("data-status") as ColumnType | null;
+      openAddTask(statusAttr || "todo");
+    });
+  });
+
+  // ================= EDIT TASK =================
+  function openEditTask(task: any) {
+    (document.getElementById("form-modal-title") as HTMLElement).textContent =
+      "Edit Task";
+    (
+      document.getElementById("form-submit-btn") as HTMLButtonElement
+    ).textContent = "Save Changes";
+
+    (document.getElementById("form-task-id") as HTMLInputElement).value =
+      task.id;
+    (document.getElementById("form-task-title") as HTMLInputElement).value =
+      task.title;
+    (
+      document.getElementById("form-task-description") as HTMLTextAreaElement
+    ).value = task.description;
+    (document.getElementById("form-task-due-date") as HTMLInputElement).value =
+      task.dueDate;
+
+    openModal("task-form-modal");
+  }
+
+  document.getElementById("edit-task-btn")?.addEventListener("click", (e) => {
+    const taskId = (e.currentTarget as HTMLButtonElement).dataset.taskId;
+    if (!taskId) return;
+
+    const task = board.taskList.getById(taskId);
+    if (task) {
+      closeModal("view-task-modal");
+      openEditTask(task);
+    }
+  });
+
+  // ================= DELETE TASK =================
+  function openDeleteModal(task: any) {
+    (document.getElementById("delete-task-title") as HTMLElement).textContent =
+      task.title;
+    (document.getElementById("delete-task-id") as HTMLInputElement).value =
+      task.id;
+    openModal("delete-modal");
+  }
+
+  document.getElementById("delete-task-btn")?.addEventListener("click", (e) => {
+    const taskId = (e.currentTarget as HTMLButtonElement).dataset.taskId;
+    if (!taskId) return;
+
+    const task = board.taskList.getById(taskId);
+    if (task) {
+      closeModal("view-task-modal");
+      openDeleteModal(task);
+    }
+  });
+
+  document
+    .getElementById("confirm-delete-btn")
+    ?.addEventListener("click", () => {
+      const id = (document.getElementById("delete-task-id") as HTMLInputElement)
+        .value;
+      if (!id) return;
+
+      board.taskList.delete(id);
+      board.save();
+      closeModal("delete-modal");
+      renderBoard();
+    });
+
+  // ================= FORM SUBMIT =================
+  const form = document.getElementById("task-form") as HTMLFormElement;
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const id = (document.getElementById("form-task-id") as HTMLInputElement)
+      .value;
+    const title = (
+      document.getElementById("form-task-title") as HTMLInputElement
+    ).value;
+    const desc = (
+      document.getElementById("form-task-description") as HTMLTextAreaElement
+    ).value;
+    const due = (
+      document.getElementById("form-task-due-date") as HTMLInputElement
+    ).value;
+    const status = (form.dataset.status as ColumnType) || "todo";
+
+    if (!title) return;
+
+    if (id) {
+      board.taskList.update(id, { title, description: desc, dueDate: due });
+    } else {
+      board.taskList.add(title, desc, due, status);
+    }
+
+    board.save();
+    closeModal("task-form-modal");
+    renderBoard();
+  });
+}
