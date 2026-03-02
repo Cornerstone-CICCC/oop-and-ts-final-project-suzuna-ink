@@ -1,0 +1,48 @@
+---
+/**
+ * ============================================================
+ *  Owner: Everyone (Integration)
+ *  File: Main page — assembles all components
+ * ============================================================
+ *
+ *  This is the single page of the Kanban app.
+ *  Each member's components are imported and placed here.
+ *
+ *  【Integration phase】
+ *  During Phase 2, the team will work together to:
+ *  1. Import and arrange all components in the right order
+ *  2. Add the <script> tag that initializes the client-side logic
+ *
+ *  The <script> tag at the bottom imports main.ts, which connects:
+ *  - Suzuna's KanbanBoard (data layer)
+ *  - Carlos's modal, search, and drag & drop (interaction layer)
+ * ============================================================
+ */
+
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import SearchBar from "../components/SearchBar.astro";
+import Board from "../components/Board.astro";
+import ViewTaskModal from "../components/ViewTaskModal.astro";
+import TaskFormModal from "../components/TaskFormModal.astro";
+import DeleteModal from "../components/DeleteModal.astro";
+---
+
+<Layout title="Kanban Board">
+  <!-- ===== HEADER (Taisei) + SEARCH BAR (Carlos) ===== -->
+  <Header />
+  <SearchBar />
+
+  <!-- ===== BOARD with 3 columns (Taisei) ===== -->
+  <Board />
+
+  <!-- ===== MODALS (Carlos) ===== -->
+  <ViewTaskModal />
+  <TaskFormModal />
+  <DeleteModal />
+</Layout>
+
+<!-- Client-side JavaScript: connects data layer + interactions -->
+<script>
+  import "../scripts/main.ts";
+</script>

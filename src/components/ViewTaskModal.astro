@@ -1,0 +1,47 @@
+---
+/**
+ * ============================================================
+ *  Owner: Carlos (Interaction Layer)
+ *  File: View Task modal
+ * ============================================================
+ *
+ *  【What to do】
+ *  Build a modal that displays a task's full details (read-only).
+ *
+ *  1. Import the Modal component
+ *     → import Modal from "./Modal.astro";
+ *
+ *  2. Wrap content inside <Modal id="view-task-modal">
+ *
+ *  3. Add placeholder elements that modal.ts will populate at runtime:
+ *     - <h2 id="view-task-title"></h2>
+ *     - <p id="view-task-description"></p>
+ *     - <p id="view-task-status"></p>
+ *     - <p id="view-task-due-date"></p>
+ *
+ *  4. Add action buttons:
+ *     - "Edit" button → opens the TaskFormModal in edit mode
+ *     - "Delete" button → opens the DeleteModal
+ *     (Carlos will wire these up in modal.ts)
+ *
+ *  【How it gets opened】
+ *  - Clicking a TaskCard triggers modal.ts to populate data & show this modal
+ *  - Clicking a search result also opens this modal
+ * ============================================================
+ */
+
+import Modal from "./Modal.astro";
+---
+
+<!-- TODO: Carlos - Build the View Task modal content here -->
+<Modal id="view-task-modal">
+  <h2 id="view-task-title">Task Title</h2>
+  <p id="view-task-description">Task description goes here...</p>
+  <p id="view-task-status">Status: todo</p>
+  <p id="view-task-due-date">Due: 2026-03-01</p>
+
+  <div class="modal-actions">
+    <button id="edit-task-btn">Edit</button>
+    <button id="delete-task-btn">Delete</button>
+  </div>
+</Modal>

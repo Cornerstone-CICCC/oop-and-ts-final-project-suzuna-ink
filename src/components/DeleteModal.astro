@@ -1,0 +1,46 @@
+---
+/**
+ * ============================================================
+ *  Owner: Carlos (Interaction Layer)
+ *  File: Delete Confirmation modal
+ * ============================================================
+ *
+ *  【What to do】
+ *  Build a simple confirmation dialog for deleting a task.
+ *
+ *  1. Import the Modal component
+ *
+ *  2. Wrap content inside <Modal id="delete-modal">
+ *
+ *  3. Show a warning message:
+ *     - "Are you sure you want to delete this task?"
+ *     - Display the task title so the user knows what they're deleting
+ *       → <span id="delete-task-title"></span> (populated by modal.ts)
+ *
+ *  4. Add two buttons:
+ *     - "Cancel" → closes the modal
+ *     - "Delete" → calls board.taskList.delete(id), saves, and re-renders
+ *     (Carlos will wire these up in modal.ts)
+ *
+ *  【Important】
+ *  - The confirm button should have id="confirm-delete-btn"
+ *  - Store the task id in a hidden element or data attribute
+ *    so modal.ts knows which task to delete
+ *    → <input type="hidden" id="delete-task-id" />
+ * ============================================================
+ */
+
+import Modal from "./Modal.astro";
+---
+
+<!-- TODO: Carlos - Build the delete confirmation modal here -->
+<Modal id="delete-modal">
+  <h2>Delete Task</h2>
+  <p>Are you sure you want to delete "<span id="delete-task-title"></span>"?</p>
+  <input type="hidden" id="delete-task-id" />
+
+  <div class="modal-actions">
+    <button id="cancel-delete-btn">Cancel</button>
+    <button id="confirm-delete-btn">Delete</button>
+  </div>
+</Modal>
