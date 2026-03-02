@@ -60,24 +60,18 @@
 //   // Render all task cards into their columns
 // }
 import { KanbanBoard } from "./KanbanBoard";
+import { initModals } from "./modal";
+import { initDragAndDrop } from "./dragAndDrop";
+import { initSearch } from "./search";
 
 const board = new KanbanBoard();
 
-// 🔥 Tarea de prueba
-if (board.taskList.tasks.length === 0) {
-  board.taskList.add("Primera tarea", "Descripción de prueba", "2026-03-01");
-  board.save();
-}
+export function renderBoard() {
+  const taskLists = document.querySelectorAll(".task-list[data-status]");
 
-function renderBoard() {
-  const columns = document.querySelectorAll("[data-status]");
-
-  columns.forEach((column) => {
-    const status = column.getAttribute("data-status");
+  taskLists.forEach((taskContainer) => {
+    const status = taskContainer.getAttribute("data-status");
     if (!status) return;
-
-    const taskContainer = column.querySelector(".task-list");
-    if (!taskContainer) return;
 
     taskContainer.innerHTML = "";
 
@@ -87,6 +81,7 @@ function renderBoard() {
       const card = document.createElement("div");
       card.className = "task-card";
       card.setAttribute("data-task-id", task.id);
+      card.setAttribute("draggable", "true");
       card.innerHTML = `
         <h4>${task.title}</h4>
         <p>${task.description}</p>
@@ -94,8 +89,9 @@ function renderBoard() {
       taskContainer.appendChild(card);
     });
   });
-  console.log("Render board is running");
-  console.log("All tasks:", board.taskList.tasks);
 }
 
 renderBoard();
+initSearch(board);
+initModals(board, renderBoard);
+initDragAndDrop(board, renderBoard);
